@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--=============== FAVICON ===============-->
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+
+    <!--=============== BOXICONS ===============-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="assets/css/styles.css" />
+
+    <title>Checkout - Rolex</title>
+    <style>
+        .checkout__container {
+            padding-top: 7rem;
+            display: grid;
+            gap: 3rem;
+            padding-bottom: 4rem;
+        }
+
+        .checkout__title {
+            margin-bottom: var(--mb-2);
+            text-align: center;
+        }
+
+        .checkout__form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .checkout__group {
+            display: grid;
+            gap: .5rem;
+        }
+
+        .checkout__label {
+            font-size: var(--small-font-size);
+            color: var(--title-color);
+        }
+
+        .checkout__input {
+            background-color: var(--container-color);
+            color: var(--text-color);
+            padding: 1rem;
+            border-radius: .5rem;
+            border: none;
+            outline: none;
+        }
+
+        .checkout__summary {
+            background-color: var(--container-color);
+            padding: 2rem;
+            border-radius: .5rem;
+            height: max-content;
+        }
+
+        .checkout__summary-title {
+            margin-bottom: var(--mb-1-5);
+            font-size: var(--h3-font-size);
+        }
+
+        .checkout__item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--mb-1);
+        }
+
+        .checkout__total {
+            border-top: 1px solid var(--text-color-light);
+            padding-top: 1rem;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: space-between;
+            font-weight: var(--font-semi-bold);
+            font-size: var(--h3-font-size);
+        }
+
+        .checkout__btn {
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        @media screen and (min-width: 768px) {
+            .checkout__container {
+                grid-template-columns: 1.5fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!--==================== HEADER ====================-->
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="index.html" class="nav__logo">
+                <i class="bx bxs-watch nav__logo-icon"></i> Rolex
+            </a>
+        </nav>
+    </header>
+
+    <!--==================== MAIN ====================-->
+    <main class="main">
+        <section class="checkout section container">
+            <h2 class="section__title checkout__title">Complete Your Order</h2>
+
+            <div class="checkout__container container grid">
+                <div class="checkout__data">
+                    <form action="" class="checkout__form" id="checkout-form">
+                        <div class="checkout__group">
+                            <label class="checkout__label">Full Name</label>
+                            <input type="text" class="checkout__input" required>
+                        </div>
+                        <div class="checkout__group">
+                            <label class="checkout__label">Email Address</label>
+                            <input type="email" class="checkout__input" required>
+                        </div>
+                        <div class="checkout__group">
+                            <label class="checkout__label">Shipping Address</label>
+                            <input type="text" class="checkout__input" required>
+                        </div>
+                        <div class="checkout__group">
+                            <label class="checkout__label">Credit Card Number</label>
+                            <input type="text" placeholder="XXXX XXXX XXXX XXXX" class="checkout__input" required>
+                        </div>
+                        <button type="submit" class="button checkout__btn">PLACE ORDER</button>
+                    </form>
+                </div>
+
+                <div class="checkout__summary" id="order-summary">
+                    <h3 class="checkout__summary-title">Order Summary</h3>
+                    <div id="summary-items">
+                        <!-- Items per JS -->
+                    </div>
+                    <div class="checkout__total">
+                        <span>Total</span>
+                        <span id="summary-total">$0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!--=============== SCROLL UP ===============-->
+    <a href="#" class="scrollup" id="scroll-up">
+        <i class="bx bx-up-arrow-alt scrollup__icon"></i>
+    </a>
+
+    <!--=============== MAIN JS (for theme/scroll) ===============-->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const summaryItems = document.getElementById('summary-items');
+            const summaryTotal = document.getElementById('summary-total');
+
+            if (cart.length === 0) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            let total = 0;
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+                summaryItems.innerHTML += `
+                    <div class="checkout__item">
+                        <span>${item.title} (x${item.quantity})</span>
+                        <span>$${item.price * item.quantity}</span>
+                    </div>
+                `;
+            });
+            summaryTotal.innerText = `$${total.toFixed(2)}`;
+
+            const form = document.getElementById('checkout-form');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Thank you for your order! This is a simulation.');
+                localStorage.removeItem('cart');
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+
+</html>
